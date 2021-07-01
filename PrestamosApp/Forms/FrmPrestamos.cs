@@ -67,6 +67,14 @@ namespace PrestamosApp.Forms
 
         private void btnVisualizar_Click(object sender, EventArgs e)
         {
+            int row = dgvPrestamos.Rows.Count;
+
+            if (row <= 0)
+            {
+                MessageBox.Show("Seleccione una fila por favor", "Mensaje de informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             flag = false;
             frmPago = new FrmCalendarioPago();
             frmPago.Prestamos = Prestamos;
