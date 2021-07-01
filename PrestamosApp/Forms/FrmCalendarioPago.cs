@@ -17,9 +17,11 @@ namespace PrestamosApp.Forms
     {
         public PrestamoModel Prestamos { get; set; }
         public bool Flag { get; set; }
+        private DataTable dt;
         public FrmCalendarioPago()
         {
             InitializeComponent();
+            dt = new DataTable();
             
         }
 
@@ -27,6 +29,14 @@ namespace PrestamosApp.Forms
         {
             cmbPeriodo.Items.AddRange(Enum.GetValues(typeof(Periodo)).Cast<object>().ToArray());
             cmbPeriodo.SelectedIndex = 0;
+
+            dt.Columns.Add("Año");
+            dt.Columns.Add("Cuota");
+            dt.Columns.Add("Abono");
+            dt.Columns.Add("Interes");
+            dt.Columns.Add("Saldo");
+
+            dgvPago.DataSource = dt;
         }
 
         private void btnCalcular_Click(object sender, EventArgs e)
@@ -36,7 +46,47 @@ namespace PrestamosApp.Forms
 
             int index = cmbPeriodo.SelectedIndex;
             Periodo periodo = Enum.GetValues(typeof(Periodo)).Cast<Periodo>().ToArray()[index];
-            decimal tasa = Convert.ToDecimal(txtTasa.Text);
+            decimal tasa = Convert.ToDecimal(txtTasa.Text) / 100m;
+
+            decimal abonoV = monto / plazo;
+
+            decimal interesP = 0;
+            decimal saldoP = 0;
+
+            for(int i = 0; i<=plazo; i++)
+            {
+                int plazoV = i;
+                decimal cuotaV = 0;
+                decimal interesV = saldoP * tasa;
+                
+                decimal saldoV = saldoP - abonoV;
+
+                DataRow dr = dt.NewRow();
+                
+                if (i == 0)
+                {
+                    dr["Año"] = plazoV;
+                    dr["Saldo"] = monto;
+                    saldoP = monto;
+                    dt.Rows.Add(dr);
+                    continue;
+                }
+
+                saldoP = saldoV;
+
+
+
+                dr["Año"] = plazoV;
+                dr["Cuota"] = cuotaV;
+                dr["Abono"] = abonoV;
+                dr["Interes"] = interesV;
+                dr["Saldo"] = saldoV;
+
+                dt.Rows.Add(dr);
+            }
+
+            MessageBox.Show("Se añadio Correctamente los datos", "Mensaje de informacion", 
+                             MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)

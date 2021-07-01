@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrestamosApp.Clases.Poco;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,9 @@ namespace PrestamosApp.Clases.Pago
 {
     public class CuotaP : IPago
     {
+        public PagoP[] calculosAnual()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
