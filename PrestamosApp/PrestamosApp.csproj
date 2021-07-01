@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Clases\Enums\Periodo.cs" />
     <Compile Include="Clases\Models\PrestamoModel.cs" />
+    <Compile Include="Clases\Pago\CuotaP.cs" />
+    <Compile Include="Clases\Pago\IPago.cs" />
+    <Compile Include="Clases\Poco\PagoP.cs" />
     <Compile Include="Clases\Poco\Prestamo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

@@ -1,4 +1,5 @@
 ﻿using PrestamosApp.Clases.Models;
+using PrestamosApp.Clases.Poco;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +15,8 @@ namespace PrestamosApp.Forms
     public partial class FrmPrestamos : Form
     {
         private FrmCalendarioPago frmPago;
+        private DataTable dt;
+        private bool flag;
         public PrestamoModel Prestamos { get; set; }
         public FrmPrestamos()
         {
@@ -22,13 +25,53 @@ namespace PrestamosApp.Forms
 
         private void FrmPrestamos_Load(object sender, EventArgs e)
         {
+            dt = new DataTable();
+            dt.Columns.Add("Monto");
+            dt.Columns.Add("Plazo");
+            dt.Columns.Add("Periodos");
+            dt.Columns.Add("Tasa");
+            dgvPrestamos.DataSource = dt;
+
+            if (Prestamos.FindAll() == null)
+            {
+                return;
+            }
+
+            foreach(Prestamo p in Prestamos.FindAll())
+            {
+                DataRow dr = dt.NewRow();
+
+                dr["Monto"] = p.Monto;
+                dr["Plazo"] = p.Plazo;
+                dr["Periodos"] = p.Periodo;
+                dr["Tasa"] = p.Tasa;
+
+                dt.Rows.Add(dr);
+
+            }
+
+            dgvPrestamos.DataSource = dt;
+
 
         }
 
         private void btnNuevo_Click(object sender, EventArgs e)
         {
+            flag = true;
+
             frmPago = new FrmCalendarioPago();
             frmPago.Prestamos = Prestamos;
+            frmPago.Flag = flag;
+            frmPago.Show();
+        }
+
+        private void btnVisualizar_Click(object sender, EventArgs e)
+        {
+            flag = false;
+            frmPago = new FrmCalendarioPago();
+            frmPago.Prestamos = Prestamos;
+            frmPago.Flag = flag;
+            frmPago.btnCalcular.Enabled = false;
             frmPago.Show();
         }
     }

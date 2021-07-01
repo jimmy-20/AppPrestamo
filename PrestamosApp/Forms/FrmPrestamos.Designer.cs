@@ -74,6 +74,7 @@ namespace PrestamosApp.Forms
             this.btnVisualizar.TabIndex = 0;
             this.btnVisualizar.Text = "Visualizar";
             this.btnVisualizar.UseVisualStyleBackColor = true;
+            this.btnVisualizar.Click += new System.EventHandler(this.btnVisualizar_Click);
             // 
             // btnNuevo
             // 
